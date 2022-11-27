@@ -5,7 +5,11 @@
             <h2 class="article_title">{{ singleNew?.title }}</h2>
             <p class="article_summary">{{ singleNew?.summary }}</p>
             <p class="article_publsihed">Published at: {{ publishingDate }}</p>
-            <a class="article_url" target="_blank" :href="singleNew?.url">Source link</a>
+            <div class="article_links">
+                <a @click.stop target="_blank" :href="singleNew?.url" class="article_url">Source link</a>
+                <button v-if="!isFav" @click.stop="toggleFav(singleNew?.id)" class="article_fav">☆</button>
+                <button v-else @click.stop="toggleFav(singleNew?.id)" class="article_fav">★</button>
+            </div>
         </div>
     </div>
 </template>
@@ -14,9 +18,12 @@
 import { onMounted, ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { getSingleNew } from '@/services/news.service';
+import { useFavStore } from '@/stores/fav.store'
+
+const favStore = useFavStore()
 
 interface ISingleNew {
-    id: number;
+    id: string;
     publishedAt: string;
     title: string;
     summary: string;
@@ -24,6 +31,10 @@ interface ISingleNew {
     url: string;
     newsSite: string;
 }
+
+const isFav = ref<boolean>(false)
+
+
 
 const singleNew = ref<ISingleNew>()
 const publishingDate = computed((): string => {
@@ -39,12 +50,19 @@ const publishingDate = computed((): string => {
 
 const route = useRoute()
 
+const toggleFav = (id: string | undefined) => {
+    if (id) {
+        favStore.toggleId(id)
+        isFav.value = !isFav.value
+    }
+}
+
 onMounted(async () => {
     const id = route.params.id
     singleNew.value = await getSingleNew(id as string)
 
-
-})  
+    isFav.value = favStore.isFav(singleNew.value.id)
+})
 </script>
   
 <style scoped>
@@ -75,7 +93,7 @@ onMounted(async () => {
 
 .article_text {
     display: grid;
-    padding: 1rem;
+    padding: 1rem 1rem 0 1rem;
 }
 
 .article_title {
@@ -90,11 +108,28 @@ onMounted(async () => {
     text-align: justify;
 }
 
-.article_url {
+.article_links {
     align-self: end;
-    line-height: 2rem;
-    margin-left: 4rem;
-    margin-right: 4rem;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.article_fav {
+    font-size: 3rem;
+}
+
+.article_fav:hover {
+    font-weight: bold;
+}
+
+.article_url {
+    line-height: 1.8rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+
 
     text-align: center;
     background-color: rgb(190, 190, 190);

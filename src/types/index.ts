@@ -7,6 +7,6 @@ export interface INewBase {
 }
 
 export interface INew extends INewBase {
-  id: number;
+  id: string;
   publishedAt: string;
 }

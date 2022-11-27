@@ -17,10 +17,13 @@
 //  ★ ☆
 import { ref } from 'vue'
 import router from '@/router'
+import { useFavStore } from '@/stores/fav.store'
+
+const favStore = useFavStore()
 
 // * interface or type cannot be imported due to `https://github.com/vuejs/core/issues/4294`
 interface INewProps {
-    id: number;
+    id: string;
     title: string;
     summary: string;
     imageUrl: string;
@@ -31,13 +34,17 @@ interface INewProps {
 const props = defineProps<INewProps>()
 
 const isFav = ref<boolean>(false)
+isFav.value = favStore.isFav(props.id)
 
-const toggleFav = (id: number) => {
-    isFav.value = !isFav.value
+const toggleFav = (id: string) => {
+    if (id) {
+        favStore.toggleId(id)
+        isFav.value = !isFav.value
+    }
 }
 
-const openArticle = (id: number) => {
-    router.push({ path: '/' + id.toString() })
+const openArticle = (id: string) => {
+    router.push({ path: '/' + id })
 }
 </script>
 
