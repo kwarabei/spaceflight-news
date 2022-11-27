@@ -1,9 +1,9 @@
 <template>
-  <ul v-for="singleNew in news" :key="singleNew.id">
-    <ArticlePreview :title="singleNew.title" :summary="singleNew.summary" :image-url="singleNew.imageUrl"
-      :url="singleNew.url" :news-site="singleNew.newsSite">
+  <div class="previewlist_wrapper">
+    <ArticlePreview v-for="singleNew in news" :key="singleNew.id" :id="singleNew.id" :title="singleNew.title"
+      :summary="singleNew.summary" :image-url="singleNew.imageUrl" :url="singleNew.url" :news-site="singleNew.newsSite">
     </ArticlePreview>
-  </ul>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -24,5 +24,10 @@ fetch(url).then(response => response.json()).then(newsRecords => {
 </script>
 
 <style scoped>
-
+.previewlist_wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
 </style>
