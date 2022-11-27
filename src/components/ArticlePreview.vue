@@ -4,12 +4,18 @@
         <div class="preview_text">
             <h2 class="preview_title">{{ props.title }}</h2>
             <p class="preview_summary">{{ props.summary }}</p>
-            <a target="_blank" :href="props.url" class="preview_url">Source link</a>
+            <div class="preview_links">
+                <a @click.stop target="_blank" :href="props.url" class="preview_url">Source link</a>
+                <button v-if="!isFav" @click.stop="toggleFav(props.id)" class="preview_fav">☆</button>
+                <button v-else @click.stop="toggleFav(props.id)" class="preview_fav">★</button>
+            </div>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
+//  ★ ☆
+import { ref } from 'vue'
 import router from '@/router'
 
 // * interface or type cannot be imported due to `https://github.com/vuejs/core/issues/4294`
@@ -23,6 +29,12 @@ interface INewProps {
 }
 
 const props = defineProps<INewProps>()
+
+const isFav = ref<boolean>(false)
+
+const toggleFav = (id: number) => {
+    isFav.value = !isFav.value
+}
 
 const openArticle = (id: number) => {
     router.push({ path: '/' + id.toString() })
@@ -76,12 +88,29 @@ const openArticle = (id: number) => {
     text-align: justify;
 }
 
-.preview_url {
+.preview_links {
     align-self: end;
-    line-height: 2rem;
-    margin-left: 4rem;
-    margin-right: 4rem;
-    margin-bottom: 1rem;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+
+    margin-bottom: 0.5rem;
+}
+
+.preview_fav {
+    font-size: 2rem;
+}
+
+.preview_fav:hover {
+    font-weight: bold;
+}
+
+.preview_url {
+    line-height: 1.8rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
 
     text-align: center;
     background-color: rgb(190, 190, 190);
