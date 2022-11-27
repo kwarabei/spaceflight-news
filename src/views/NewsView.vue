@@ -7,20 +7,20 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { ArticlePreview } from '@/components'
+import { getNews } from '@/services/news.service';
 import type { INew } from '@/types';
 
-const url = "https://api.spaceflightnewsapi.net/v3/articles?_limit=20&_start=0"
+let limit = 20
+let start = 0
 
 const news = ref<INew[]>([])
 
-fetch(url).then(response => response.json()).then(newsRecords => {
-  const typedNews = newsRecords as INew[]
-  typedNews.forEach(singleNew => news.value.push(singleNew))
-
-  console.log(news)
+onMounted(async () => {
+  news.value = await getNews(limit, start)
 })
+
 </script>
 
 <style scoped>

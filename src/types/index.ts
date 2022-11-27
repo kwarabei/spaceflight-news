@@ -8,4 +8,5 @@ export interface INewBase {
 
 export interface INew extends INewBase {
   id: number;
+  publishedAt: string;
 }

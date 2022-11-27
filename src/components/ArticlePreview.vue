@@ -31,14 +31,14 @@ const openArticle = (id: number) => {
 
 <style scoped>
 .preview_wrapper {
-    margin: 0.5vw;
+    margin-bottom: 3vh;
     padding: 0.4em;
-    max-width: 31vw;
+    max-width: 365px;
     height: auto;
 
     border: 1px solid black;
     border-radius: 5px;
-    box-shadow: 1px 1px 1px black;
+    box-shadow: 2px 2px 2px black;
 }
 
 .preview_wrapper:hover {
