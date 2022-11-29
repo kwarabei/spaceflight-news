@@ -1,7 +1,15 @@
 import type { INew } from "@/types";
 
-export async function getNews(limit: number, start: number): Promise<INew[]> {
-  const url = `https://api.spaceflightnewsapi.net/v3/articles?_limit=${limit}&_start=${start}`;
+export async function getNews(
+  limit: number,
+  start: number,
+  query: string | null
+): Promise<INew[]> {
+  let url = `https://api.spaceflightnewsapi.net/v3/articles?_limit=${limit}&_start=${start}`;
+
+  if (query) {
+    url += `&_q=${query}`;
+  }
 
   const response = await fetch(url);
 

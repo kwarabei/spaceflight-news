@@ -1,5 +1,6 @@
 <template>
   <div class="articles">
+    <input class="articles_search" @input="debounceSearch" type="text" placeholder="Search articles...">
     <div v-show="news.length === 0" class="articles_loader">Loading...</div>
     <div class="previewlist_wrapper">
       <ArticlePreview v-for="singleNew in news" :key="singleNew.id" :id="singleNew.id" :title="singleNew.title"
@@ -22,16 +23,31 @@ let limit = 20
 let start = 0
 
 const news = ref<INew[]>([])
+const searchQuery = ref<string | null>(null)
+let debounceId: number | null = null
 
 const fetchMoreArticles = async () => {
   start += 20
-  const articles = await getNews(limit, start)
+  const articles = await getNews(limit, start, searchQuery.value)
 
   news.value.push(...articles)
 }
 
+const debounceSearch = (event: any) => {
+  searchQuery.value = ''
+
+  if (debounceId) {
+    clearTimeout(debounceId)
+  }
+
+  debounceId = setTimeout(async () => {
+    searchQuery.value = event.target.value
+    news.value = await getNews(limit, start, searchQuery.value)
+  }, 600)
+}
+
 onMounted(async () => {
-  news.value = await getNews(limit, start)
+  news.value = await getNews(limit, start, null)
 })
 </script>
 
@@ -41,6 +57,16 @@ onMounted(async () => {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-around;
+}
+
+.articles_search {
+  display: block;
+  margin: 1rem auto;
+
+  border: 1px solid black;
+  height: 2rem;
+  width: 15rem;
+  padding-left: 1rem;
 }
 
 .articles_loader {
