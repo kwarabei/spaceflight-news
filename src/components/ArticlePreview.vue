@@ -1,5 +1,5 @@
 <template>
-    <div @click="openArticle(props.id)" class="preview_wrapper">
+    <article role="button" @click="openArticle(props.id)" class="preview_wrapper">
         <img class="preview_img" :src="props.imageUrl" alt="Article preview">
         <div class="preview_text">
             <h2 class="preview_title">{{ props.title }}</h2>
@@ -10,7 +10,7 @@
                 <button v-else @click.stop="toggleFav(props.id)" class="preview_fav">★</button>
             </div>
         </div>
-    </div>
+    </article>
 </template>
 
 <script setup lang="ts">
