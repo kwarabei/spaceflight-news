@@ -1,6 +1,7 @@
 <template>
     <section>
-        <article class="favArticle" v-for="value in favArticles.entries()">
+        <div class="favArticles_empty_msg" v-if="favStore.getAmount === 0">No favorited articles</div>
+        <article v-else class="favArticle" v-for="value in favArticles.entries()">
             <span class="favArticle_title">{{ value[1] }}</span>
             <span @click="handleUnfavArticle(value[0])" role="button" class="favArticle_btn">🗑</span>
         </article>
@@ -24,6 +25,14 @@ const handleUnfavArticle = (id: string) => {
 </script>
   
 <style scoped>
+.favArticles_empty_msg {
+    margin: 2rem auto;
+    width: 20rem;
+
+    text-align: center;
+    font-size: 1.3rem;
+}
+
 .favArticle {
     display: flex;
     flex-direction: row;

@@ -1,8 +1,8 @@
-import { ref, computed } from "vue";
+import { useStorage } from "@vueuse/core";
 import { defineStore } from "pinia";
 
 export const useFavStore = defineStore("fav", {
-  state: () => ({ ids: new Map<string, string>() }),
+  state: () => ({ ids: useStorage("ids", new Map<string, string>()) }),
   getters: {
     getArticles(): Map<string, string> {
       return this.ids;

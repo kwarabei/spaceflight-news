@@ -1,5 +1,6 @@
 <template>
   <div class="articles">
+    <div v-show="news.length === 0" class="articles_loader">Loading...</div>
     <div class="previewlist_wrapper">
       <ArticlePreview v-for="singleNew in news" :key="singleNew.id" :id="singleNew.id" :title="singleNew.title"
         :summary="singleNew.summary" :image-url="singleNew.imageUrl" :url="singleNew.url"
@@ -40,6 +41,14 @@ onMounted(async () => {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-around;
+}
+
+.articles_loader {
+  width: 20rem;
+  margin: 1rem auto;
+
+  text-align: center;
+  font-size: 2rem;
 }
 
 .more_btn {
