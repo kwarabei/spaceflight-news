@@ -22,8 +22,6 @@ let start = 0
 
 const news = ref<INew[]>([])
 
-
-
 const fetchMoreArticles = async () => {
   start += 20
   const articles = await getNews(limit, start)

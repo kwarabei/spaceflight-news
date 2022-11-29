@@ -7,8 +7,9 @@
             <p class="article_publsihed">Published at: {{ publishingDate }}</p>
             <div class="article_links">
                 <a @click.stop target="_blank" :href="singleNew?.url" class="article_url">Source link</a>
-                <button v-if="!isFav" @click.stop="toggleFav(singleNew?.id)" class="article_fav">☆</button>
-                <button v-else @click.stop="toggleFav(singleNew?.id)" class="article_fav">★</button>
+                <button v-if="!isFav" @click.stop="toggleFav(singleNew?.id, singleNew?.title)"
+                    class="article_fav">☆</button>
+                <button v-else @click.stop="toggleFav(singleNew?.id, singleNew?.title)" class="article_fav">★</button>
             </div>
         </div>
     </div>
@@ -50,9 +51,9 @@ const publishingDate = computed((): string => {
 
 const route = useRoute()
 
-const toggleFav = (id: string | undefined) => {
-    if (id) {
-        favStore.toggleId(id)
+const toggleFav = (id: string | undefined, title: string | undefined) => {
+    if (id && title) {
+        favStore.toggleById(id, title)
         isFav.value = !isFav.value
     }
 }

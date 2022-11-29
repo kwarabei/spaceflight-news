@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { NewsView, SingleView } from "@/views";
+import { NewsView, SingleView, FavoritedNewsView } from "@/views";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -13,6 +13,11 @@ const router = createRouter({
       path: "/:id",
       name: "single-new",
       component: SingleView,
+    },
+    {
+      path: "/fav",
+      name: "favorite",
+      component: FavoritedNewsView,
     },
   ],
 });

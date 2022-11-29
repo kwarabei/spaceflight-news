@@ -12,6 +12,8 @@ export async function getNews(limit: number, start: number): Promise<INew[]> {
 
   const news = await response.json();
 
+  news.forEach((item: INew, i: number) => (news[i].id = item.id.toString()));
+
   return news as INew[];
 }
 
@@ -26,6 +28,8 @@ export async function getSingleNew(id: string): Promise<INew> {
   }
 
   const singleNew = await response.json();
+
+  singleNew.id = singleNew.id.toString();
 
   return singleNew as INew;
 }

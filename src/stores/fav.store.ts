@@ -2,29 +2,32 @@ import { ref, computed } from "vue";
 import { defineStore } from "pinia";
 
 export const useFavStore = defineStore("fav", {
-  state: () => ({ ids: new Set<string>() }),
+  state: () => ({ ids: new Map<string, string>() }),
   getters: {
-    getIds(): Set<string> {
+    getArticles(): Map<string, string> {
       return this.ids;
     },
     getAmount(): number {
-      return this.ids.keys.length;
+      return this.ids.size;
     },
   },
   actions: {
-    toggleId(id: string) {
+    toggleById(id: string, title: string) {
       const isIdStored = this.ids.has(id);
 
       if (isIdStored) {
         this.ids.delete(id);
       } else {
-        this.ids.add(id);
+        this.ids.set(id, title);
       }
     },
     // perhaps this function could be defined as a getter but
     // then more complicated store setup will be required
     isFav(id: string): boolean {
       return this.ids.has(id);
+    },
+    deleteById(id: string) {
+      this.ids.delete(id);
     },
   },
 });

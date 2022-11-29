@@ -6,8 +6,8 @@
             <p class="preview_summary">{{ props.summary }}</p>
             <div class="preview_links">
                 <a @click.stop target="_blank" :href="props.url" class="preview_url">Source link</a>
-                <button v-if="!isFav" @click.stop="toggleFav(props.id)" class="preview_fav">☆</button>
-                <button v-else @click.stop="toggleFav(props.id)" class="preview_fav">★</button>
+                <button v-if="!isFav" @click.stop="toggleFav(props.id, props.title)" class="preview_fav">☆</button>
+                <button v-else @click.stop="toggleFav(props.id, props.title)" class="preview_fav">★</button>
             </div>
         </div>
     </article>
@@ -36,9 +36,9 @@ const props = defineProps<INewProps>()
 const isFav = ref<boolean>(false)
 isFav.value = favStore.isFav(props.id)
 
-const toggleFav = (id: string) => {
+const toggleFav = (id: string, title: string) => {
     if (id) {
-        favStore.toggleId(id)
+        favStore.toggleById(id, title)
         isFav.value = !isFav.value
     }
 }
