@@ -28,10 +28,10 @@ let debounceId: number | null = null
 
 const fetchMoreArticles = async () => {
   start += 20
-  const articles: INew[] = []
+  let articles: INew[] = []
 
   try {
-    await getNews(limit, start, searchQuery.value)
+    articles = await getNews(limit, start, searchQuery.value)
   } catch (error) {
     console.error(error)
   }
