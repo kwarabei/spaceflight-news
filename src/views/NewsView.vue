@@ -28,7 +28,14 @@ let debounceId: number | null = null
 
 const fetchMoreArticles = async () => {
   start += 20
-  const articles = await getNews(limit, start, searchQuery.value)
+  const articles: INew[] = []
+
+  try {
+    await getNews(limit, start, searchQuery.value)
+  } catch (error) {
+    console.error(error)
+  }
+
 
   news.value.push(...articles)
 }
@@ -42,12 +49,23 @@ const debounceSearch = (event: any) => {
 
   debounceId = setTimeout(async () => {
     searchQuery.value = event.target.value
-    news.value = await getNews(limit, start, searchQuery.value)
+
+    try {
+      news.value = await getNews(limit, start, searchQuery.value)
+    } catch (error) {
+      console.error(error)
+    }
+
   }, 600)
 }
 
 onMounted(async () => {
-  news.value = await getNews(limit, start, null)
+  try {
+    news.value = await getNews(limit, start, null)
+  } catch (error) {
+    console.error(error)
+  }
+
 })
 </script>
 

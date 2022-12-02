@@ -14,8 +14,7 @@ export async function getNews(
   const response = await fetch(url);
 
   if (!response.ok) {
-    // TODO handle error
-    return [];
+    throw Error(response.statusText);
   }
 
   const news = await response.json();
@@ -31,8 +30,7 @@ export async function getSingleNew(id: string): Promise<INew> {
   const response = await fetch(url);
 
   if (!response.ok) {
-    // TODO handle error
-    return {} as INew;
+    throw Error(response.statusText);
   }
 
   const singleNew = await response.json();

@@ -60,9 +60,13 @@ const toggleFav = (id: string | undefined, title: string | undefined) => {
 
 onMounted(async () => {
     const id = route.params.id
-    singleNew.value = await getSingleNew(id as string)
 
-    isFav.value = favStore.isFav(singleNew.value.id)
+    try {
+        singleNew.value = await getSingleNew(id as string)
+        isFav.value = favStore.isFav(singleNew.value.id)
+    } catch (error) {
+        console.error(error)
+    }
 })
 </script>
   
